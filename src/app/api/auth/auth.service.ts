@@ -1,33 +1,46 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
-import {map} from "rxjs";
+import {map, Subscription} from "rxjs";
 import {User} from "../models/user.model";
-import {Firestore, collection, addDoc} from "@angular/fire/firestore";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../app.reducer";
+import * as authAction from "../../auth/auth.actions";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(public auth: AngularFireAuth,
-              public firestone: Firestore
-  ) { }
+  userSubscription: Subscription;
 
-  iniAuthListener() {
-    this.auth.authState.subscribe(fuser => {
-      console.log(fuser);
-      console.log(fuser?.email);
-      console.log(fuser?.uid);
+  constructor(public auth: AngularFireAuth,
+              private firestone: AngularFirestore,
+              private store: Store<AppState>
+  ) {
+  }
+
+  async iniAuthListener() {
+    this.auth.authState.subscribe(async fuser => {
+      if (fuser) {
+        this.userSubscription = this.firestone.doc(`${fuser.uid}/user`).valueChanges()
+          .subscribe((firestoneUser: any) => {
+            const user = User.fromFirestone(firestoneUser);
+            this.store.dispatch(authAction.setUser({user}))
+          })
+      } else {
+        this.userSubscription.unsubscribe();
+        this.store.dispatch(authAction.unSetUser())
+      }
     })
   }
 
-  createUser({nombre, email, password}: any): Promise<any> {
+  async createUser({nombre, email, password}: any): Promise<any> {
     return this.auth.createUserWithEmailAndPassword(email, password)
-      .then( ({user}) => {
-        const newUser = new User(user.uid, nombre, user.email );
+      .then(({user}) => {
+        const newUser = new User(user.uid, nombre, user.email);
 
-        const userRef = collection(this.firestone, 'user');
-        return addDoc(userRef, {...newUser})
+        return this.firestone.doc(`${user.uid}/user`).set({...newUser});
       })
   }
 
