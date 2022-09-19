@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {IngressEgressService} from "../api/ingress-egress.service";
-import {IngressEgress} from "../api/models/ingress-egress.model";
 import Swal from "sweetalert2";
 import {Store} from "@ngrx/store";
 import {AppState} from "../app.reducer";

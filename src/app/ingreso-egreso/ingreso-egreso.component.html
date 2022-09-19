@@ -33,11 +33,11 @@
           <div class="form-group">
             <label>Tipo</label>
             <br>
-            <button *ngIf="type === 'ingress'" type="button"
-                    (click)="type = 'egress'"
+            <button *ngIf="type === 'ingreso'" type="button"
+                    (click)="type = 'egreso'"
                     class="btn btn-primary btn-block">Ingreso</button>
-            <button *ngIf="type === 'egress'" type="button"
-                    (click)="type = 'ingress'"
+            <button *ngIf="type === 'egreso'" type="button"
+                    (click)="type = 'ingreso'"
                     class="btn btn-warning btn-block">Egreso</button>
           </div>
 

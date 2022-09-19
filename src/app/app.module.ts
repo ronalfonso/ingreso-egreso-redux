@@ -30,6 +30,7 @@ import {getAuth, provideAuth} from "@angular/fire/auth";
 import {getFirestore, provideFirestore} from "@angular/fire/firestore";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import { OrderIngressPipe } from './api/pipes/order-ingress.pipe';
+import {NgChartsModule} from "ng2-charts";
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { OrderIngressPipe } from './api/pipes/order-ingress.pipe';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    NgChartsModule,
     provideFirebaseApp(
       () => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
