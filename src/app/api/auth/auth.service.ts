@@ -13,6 +13,11 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 export class AuthService {
 
   userSubscription: Subscription;
+  private _user: User;
+
+  get user() {
+    return {...this._user}
+  }
 
   constructor(public auth: AngularFireAuth,
               private firestone: AngularFirestore,
@@ -26,9 +31,11 @@ export class AuthService {
         this.userSubscription = this.firestone.doc(`${fuser.uid}/user`).valueChanges()
           .subscribe((firestoneUser: any) => {
             const user = User.fromFirestone(firestoneUser);
+            this._user = user;
             this.store.dispatch(authAction.setUser({user}))
           })
       } else {
+        this._user = null;
         this.userSubscription.unsubscribe();
         this.store.dispatch(authAction.unSetUser())
       }
