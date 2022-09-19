@@ -29,6 +29,7 @@ import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
 import {getAuth, provideAuth} from "@angular/fire/auth";
 import {getFirestore, provideFirestore} from "@angular/fire/firestore";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import { OrderIngressPipe } from './api/pipes/order-ingress.pipe';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
     DetalleComponent,
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    OrderIngressPipe
   ],
   imports: [
     BrowserModule,

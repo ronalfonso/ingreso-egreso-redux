@@ -7,6 +7,7 @@ import {Store} from "@ngrx/store";
 import {AppState} from "../app.reducer";
 import * as uiActions from "./../shared/ui.actions";
 import {Subscription} from "rxjs";
+import {IngressEgressCreate} from "../api/models/ingress-egress-create.model";
 
 
 
@@ -18,7 +19,7 @@ import {Subscription} from "rxjs";
 export class IngresoEgresoComponent implements OnInit, OnDestroy {
 
   ingressEgressForm: FormGroup;
-  type: string = 'ingress';
+  type: string = 'ingreso';
   loading = false;
   loadingSubscription: Subscription;
 
@@ -46,7 +47,7 @@ export class IngresoEgresoComponent implements OnInit, OnDestroy {
     if (this.ingressEgressForm.invalid) {return;}
     this.store.dispatch(uiActions.isLoading());
     const { description, amount } = this.ingressEgressForm.value;
-    const ingressEgress = new IngressEgress(description, amount, this.type);
+    const ingressEgress = new IngressEgressCreate(description, amount, this.type);
     this.ingressEgressService.createIngressEgress( ingressEgress )
       .then(() => {
         this.store.dispatch(uiActions.stopLoading());
