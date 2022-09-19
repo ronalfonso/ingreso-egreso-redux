@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {AppState} from "../../app.reducer";
 import {IngressEgress} from "../../api/models/ingress-egress.model";
 import {Subscription} from "rxjs";
 import {IngressEgressService} from "../../api/ingress-egress.service";
 import Swal from "sweetalert2";
+import {AppStateWithIngressEgress} from "../ingreso-egreso.reducer";
 
 @Component({
   selector: 'app-detalle',
@@ -13,7 +13,7 @@ import Swal from "sweetalert2";
 })
 export class DetalleComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store<AppState>,
+  constructor(private store: Store<AppStateWithIngressEgress>,
               private ingressEgressService: IngressEgressService) { }
 
   ingressEgress: IngressEgress[] = [];
@@ -24,7 +24,7 @@ export class DetalleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ingressEgressSubs.unsubscribe();
+    this.ingressEgressSubs?.unsubscribe();
   }
 
   delete(uid: string) {

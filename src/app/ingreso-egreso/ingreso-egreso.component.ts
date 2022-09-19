@@ -39,7 +39,7 @@ export class IngresoEgresoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.loadingSubscription.unsubscribe();
+    this.loadingSubscription?.unsubscribe();
   }
 
   save() {

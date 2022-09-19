@@ -37,7 +37,7 @@ export class AuthService {
           })
       } else {
         this._user = null;
-        this.userSubscription.unsubscribe();
+        this.userSubscription?.unsubscribe();
         this.store.dispatch(authAction.unSetUser())
         this.store.dispatch(ingressEgressActions.unSetItems())
       }
@@ -48,7 +48,6 @@ export class AuthService {
     return this.auth.createUserWithEmailAndPassword(email, password)
       .then(({user}) => {
         const newUser = new User(user.uid, nombre, user.email);
-
         return this.firestone.doc(`${user.uid}/user`).set({...newUser});
       })
   }

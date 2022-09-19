@@ -37,18 +37,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.uiSubscription.unsubscribe();
+    this.uiSubscription?.unsubscribe();
   }
 
   login() {
     if (this.loginForm.invalid) {return;}
 
     this.store.dispatch(ui.isLoading());
-    // Swal.fire({
-    //   title: 'Espere Por favor!!!',
-    //   didOpen: () => {
-    //     Swal.showLoading()
-    //   }})
     this.authService.loginUser(this.loginForm.value)
       .then(() => {
         this.store.dispatch(ui.stopLoading());

@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {AppState} from "../../app.reducer";
 import {IngressEgress} from "../../api/models/ingress-egress.model";
 import {ChartData} from "chart.js";
 import {Subscription} from "rxjs";
+import {AppStateWithIngressEgress} from "../ingreso-egreso.reducer";
 
 @Component({
   selector: 'app-estadistica',
@@ -28,7 +28,7 @@ export class EstadisticaComponent implements OnInit, OnDestroy {
     ]
   };
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppStateWithIngressEgress>) { }
 
   ngOnInit(): void {
     this.statisticsSubs = this.store.select('ingressEgress').subscribe(({items}) => {
@@ -37,7 +37,7 @@ export class EstadisticaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.statisticsSubs.unsubscribe();
+    this.statisticsSubs?.unsubscribe();
   }
 
   generateStatistics(items: IngressEgress[]) {
